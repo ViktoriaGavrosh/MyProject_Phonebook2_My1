@@ -1,8 +1,5 @@
 package allContact
 
-import java.time.LocalDate       //delete
-import java.time.LocalDateTime       //delete
-
 class ContactPerson : Contact() {
     private var surname: String = ""
 
@@ -59,7 +56,7 @@ class ContactPerson : Contact() {
 
     private fun checkBirthday(stringDate: String): String {
         return try {
-            LocalDate.parse(stringDate)      //delete
+            kotlinx.datetime.LocalDate.parse(stringDate)
             stringDate
         } catch (e: Exception){
             if (!isDeserialize) println("Bad birth date!")

@@ -1,17 +1,17 @@
 package allContact
 
-import java.time.LocalDateTime
+import kotlinx.datetime.*
 
 abstract class Contact {
     internal var name: String = ""
-    internal var phoneNumber: String = ""        //"[no number]"
+    internal var phoneNumber: String = ""
         set(value) {
             field = checkNumber(value)
         }
 
-    internal var timeCreated = LocalDateTime.now().toString().substring(0, 16)
+    internal var timeCreated = Clock.System.now().toLocalDateTime(TimeZone.of("UTC+3")).toString().substring(0, 16)
 
-    internal var timeEdit = LocalDateTime.now().toString().substring(0, 16)
+    internal var timeEdit = Clock.System.now().toLocalDateTime(TimeZone.of("UTC+3")).toString().substring(0, 16)
         set(value) {
             field = if (value.length > 15) value.substring(0, 16) else value
         }
@@ -32,7 +32,7 @@ abstract class Contact {
         println("Enter $field:")
         changeField(field, readln())
         println("Saved")
-        timeEdit = LocalDateTime.now().toString()       //delete
+        timeEdit = Clock.System.now().toLocalDateTime(TimeZone.of("UTC+3")).toString()
         printInfo()
     }
 

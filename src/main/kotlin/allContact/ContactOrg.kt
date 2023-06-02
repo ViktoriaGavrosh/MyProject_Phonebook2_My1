@@ -1,7 +1,5 @@
 package allContact
 
-import java.time.LocalDateTime
-
 class ContactOrg : Contact() {
     private var address: String = ""
 
