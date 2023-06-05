@@ -1,10 +1,9 @@
 import allContact.Contact
 import allContact.ContactOrg
 import allContact.ContactPerson
-import java.io.File
 
-class PhoneBook(private val file: File) {         //file???
-    internal var book = mutableListOf<Contact>()
+class PhoneBook {
+    private var book = mutableListOf<Contact>()
 
     internal fun showMenu() {
         while (true) {
@@ -25,7 +24,6 @@ class PhoneBook(private val file: File) {         //file???
         val contact = if (readln() == "person") ContactPerson() else ContactOrg()
         contact.initContact()
         book.add(0, contact)
-        save(file, book)                 //delete
         println("The record added.")
     }
 
@@ -37,7 +35,6 @@ class PhoneBook(private val file: File) {         //file???
                 "delete" -> deleteContact(index)
                 "menu" -> return
             }
-            save(file, book)           //delete
         }
     }
 

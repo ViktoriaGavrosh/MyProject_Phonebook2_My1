@@ -1,6 +1,7 @@
 package allContact
 
 class ContactOrg : Contact() {
+    override val contactType = "organization"
     private var address: String = ""
 
     override fun initContact() {
@@ -31,11 +32,5 @@ class ContactOrg : Contact() {
         else -> false
     }
 
-    override fun serializeString(): String {       //delete
-        val res = super.serializeString()
-        return "$res\"address\": \"$address\"}"
-    }
-
     override fun toString() = name
-
 }

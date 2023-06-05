@@ -1,6 +1,7 @@
 package allContact
 
 class ContactPerson : Contact() {
+    override val contactType = "person"
     private var surname: String = ""
 
     private var birthDate = "[no data]"
@@ -49,24 +50,21 @@ class ContactPerson : Contact() {
         else -> false
     }
 
-    override fun serializeString(): String {      //delete
-        val res = super.serializeString()
-        return "$res\"surname\": \"$surname\", \"birthDate\": \"$birthDate\", \"gender\": \"$gender\"}"
-    }
-
     private fun checkBirthday(stringDate: String): String {
+        if (stringDate == "[no data]") return stringDate
         return try {
             kotlinx.datetime.LocalDate.parse(stringDate)
             stringDate
         } catch (e: Exception){
-            if (!isDeserialize) println("Bad birth date!")
+            println("Bad birth date!")
             "[no data]"
         }
     }
 
     private fun checkGender(gender: String): String {
+        if (gender == "[no data]") return gender
         return if (gender != "M" && gender != "F") {
-            if (!isDeserialize) println("Bad gender!")
+            println("Bad gender!")
             "[no data]"
         } else gender
     }

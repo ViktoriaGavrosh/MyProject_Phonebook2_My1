@@ -3,6 +3,7 @@ package allContact
 import kotlinx.datetime.*
 
 abstract class Contact {
+    abstract val contactType: String
     internal var name: String = ""
     internal var phoneNumber: String = ""
         set(value) {
@@ -15,8 +16,6 @@ abstract class Contact {
         set(value) {
             field = if (value.length > 15) value.substring(0, 16) else value
         }
-
-    internal var isDeserialize = false       //delete
 
     abstract fun printInfo()
 
@@ -36,20 +35,6 @@ abstract class Contact {
         printInfo()
     }
 
-    internal open fun serializeString(): String {             //delete
-        val res = "{\"name\": \"$name\", \"phoneNumber\": \"$phoneNumber\", "
-        return "$res\"timeCreated\": \"$timeCreated\", \"timeEdit\": \"$timeEdit\", "
-    }
-
-    internal fun deserialize(listFields: List<String>) {        //delete
-        isDeserialize = true
-        for (i in listFields) {
-            val field = i.substring(1,i.lastIndex).split("\": \"")
-            changeField(field[0], field[1])
-        }
-        isDeserialize = false
-    }
-
     internal open fun changeField(field: String, value: String) {
         when (field) {
             "name" -> name = value
@@ -60,11 +45,11 @@ abstract class Contact {
     }
 
     private fun checkNumber(number: String): String {
+        if (number == "[no data]") return number
         val listNum = number.split(Regex("[ \\-]"))
         val regex1 = Regex("\\+?\\(.+\\)")     //it works, but +(23) - true!
         var countBrackets = 0
         try {
-            //if (!Regex("\\d+").containsMatchIn(number)) throw Exception()   //поменять!!!
             for (i in listNum.indices) {
                 val regex2 = if (i == 0) Regex("\\+?\\(\\w+\\)|\\+?\\w+") else Regex("\\(\\w{2,}\\)|\\w{2,}")
                 if (regex1.matches(listNum[i])) {
@@ -74,7 +59,7 @@ abstract class Contact {
                 if (!regex2.matches(listNum[i])) throw Exception()
             }
         } catch (e: Exception) {
-            if (!isDeserialize) println("Wrong number format!")
+            println("Wrong number format!")
             return phoneNumber
         }
         return number
