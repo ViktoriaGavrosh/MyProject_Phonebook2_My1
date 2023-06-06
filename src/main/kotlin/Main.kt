@@ -11,7 +11,7 @@ fun main(args: Array<String>) {
     val wayToFile = try {
         args.first()
     } catch (e: Exception) {
-        "C:\\a\\phonebook.txt"
+        "C:\\a\\phonebook.txt"        //path to the file that will be created by default
     }
     val file = File(wayToFile)
     println("open ${file.name}\n")
